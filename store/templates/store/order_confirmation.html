@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmed | Bloom & Basket{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="confirmation">
+        <p class="eyebrow">Simulated purchase approved</p>
+        <h1>Order #{{ order.pk }} is saved</h1>
+        <p class="lede">No payment was collected. This order demonstrates a successful web application checkout workflow.</p>
+    </div>
+
+    {% include "store/partials/order_table.html" with order=order %}
+
+    <div class="action-row">
+        <a class="primary-button" href="{% url 'store:order_detail' order.pk %}">View order details</a>
+        <a class="secondary-button" href="{% url 'store:catalog' %}">Keep shopping</a>
+    </div>
+</section>
+{% endblock %}

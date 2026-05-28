@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Register | Bloom & Basket{% endblock %}
+
+{% block content %}
+<section class="page-section narrow">
+    <h1>Create a customer account</h1>
+    <p class="lede">Customer accounts can complete simulated purchases and view their saved orders.</p>
+
+    <form method="post" class="form-panel">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="form-errors">{{ form.non_field_errors }}</div>
+        {% endif %}
+        {% for field in form %}
+            <div class="form-row">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small>{{ field.help_text }}</small>
+                {% endif %}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <button class="primary-button" type="submit">Register</button>
+    </form>
+</section>
+{% endblock %}

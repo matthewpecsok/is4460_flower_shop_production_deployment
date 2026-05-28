@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Cart | Bloom & Basket{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-heading">
+        <div>
+            <h1>Your cart</h1>
+            <p class="lede">Review quantities before the simulated class checkout.</p>
+        </div>
+        <a class="secondary-button" href="{% url 'store:catalog' %}">Continue shopping</a>
+    </div>
+
+    {% if cart_lines %}
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Line total</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in cart_lines %}
+                        <tr>
+                            <th scope="row">
+                                <a href="{% url 'store:product_detail' line.product.pk %}">{{ line.product.name }}</a>
+                                <span class="muted">Available: {{ line.product.quantity }}</span>
+                            </th>
+                            <td>${{ line.product.price }}</td>
+                            <td>
+                                <form class="inline-form" method="post" action="{% url 'store:update_cart' line.product.pk %}">
+                                    {% csrf_token %}
+                                    <label class="visually-hidden" for="quantity-{{ line.product.pk }}">Quantity for {{ line.product.name }}</label>
+                                    <input id="quantity-{{ line.product.pk }}" name="quantity" type="number" min="1" max="{{ line.product.quantity }}" value="{{ line.quantity }}">
+                                    <button type="submit">Update</button>
+                                </form>
+                            </td>
+                            <td>${{ line.line_total }}</td>
+                            <td>
+                                <form method="post" action="{% url 'store:remove_from_cart' line.product.pk %}">
+                                    {% csrf_token %}
+                                    <button class="plain-button danger" type="submit">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="row" colspan="3">Order total</th>
+                        <td colspan="2">${{ cart_total }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <aside class="checkout-note">
+            <h2>Simulated checkout</h2>
+            <p>This course app automatically approves purchases. It does not ask for or store payment card details.</p>
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'store:checkout' %}">
+                    {% csrf_token %}
+                    <button class="primary-button" type="submit">Purchase</button>
+                </form>
+            {% else %}
+                <a class="primary-button" href="{% url 'login' %}?next={% url 'store:cart_detail' %}">Log in before purchase</a>
+            {% endif %}
+        </aside>
+    {% else %}
+        <div class="empty-state">
+            <h2>Your cart is empty</h2>
+            <p>Add in-stock flowers from the catalog before checkout.</p>
+            <a class="primary-button" href="{% url 'store:catalog' %}">Browse catalog</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

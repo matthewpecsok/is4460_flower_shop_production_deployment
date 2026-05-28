@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Catalog | Bloom & Basket{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-heading">
+        <div>
+            <h1>Flower catalog</h1>
+            <p class="lede">Browse current inventory and add available flowers to your cart.</p>
+        </div>
+        <a class="secondary-button" href="{% url 'store:cart_detail' %}">View cart</a>
+    </div>
+
+    <div class="product-grid">
+        {% for product in products %}
+            <article class="product-card">
+                <div class="product-accent"></div>
+                <div class="card-heading">
+                    <h2><a href="{% url 'store:product_detail' product.pk %}">{{ product.name }}</a></h2>
+                    {% if product.is_in_stock %}
+                        <span class="stock-badge">In stock</span>
+                    {% else %}
+                        <span class="stock-badge out">Out of stock</span>
+                    {% endif %}
+                </div>
+                <p>{{ product.description|truncatewords:24 }}</p>
+                <div class="product-meta">
+                    <span>${{ product.price }}</span>
+                    <span>{{ product.quantity }} available</span>
+                </div>
+                {% if product.is_in_stock %}
+                    <form method="post" action="{% url 'store:add_to_cart' product.pk %}" class="card-form">
+                        {% csrf_token %}
+                        <label for="quantity-{{ product.pk }}">Qty</label>
+                        <input id="quantity-{{ product.pk }}" name="quantity" type="number" min="1" max="{{ product.quantity }}" value="1">
+                        <button type="submit">Add</button>
+                    </form>
+                {% else %}
+                    <a class="secondary-button full" href="{% url 'store:product_detail' product.pk %}">View details</a>
+                {% endif %}
+            </article>
+        {% empty %}
+            <div class="empty-state">
+                <h2>No products yet</h2>
+                <p>Staff can add products through Django admin or run the demo seed command.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

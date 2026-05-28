@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bloom & Basket Flower Shop{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <img src="{% static 'store/img/flower-shop-hero.png' %}" alt="Fresh bouquets arranged on a flower shop counter">
+    <div class="hero-copy">
+        <p class="eyebrow">Teaching demo storefront</p>
+        <h1>Bloom &amp; Basket Flower Shop</h1>
+        <p>Browse flowers, manage a session cart, complete a simulated purchase, and review saved orders.</p>
+        <div class="hero-actions">
+            <a class="primary-button" href="{% url 'store:catalog' %}">Shop flowers</a>
+            {% if not user.is_authenticated %}
+                <a class="secondary-button light" href="{% url 'store:register' %}">Create account</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="page-section">
+    <div class="section-heading">
+        <div>
+            <h2>Fresh today</h2>
+            <p class="lede">A few in-stock products for the classroom demo.</p>
+        </div>
+        <a class="secondary-button" href="{% url 'store:catalog' %}">View all</a>
+    </div>
+
+    <div class="product-grid">
+        {% for product in featured_products %}
+            <article class="product-card">
+                <div class="product-accent"></div>
+                <h3><a href="{% url 'store:product_detail' product.pk %}">{{ product.name }}</a></h3>
+                <p>{{ product.description|truncatewords:20 }}</p>
+                <div class="product-meta">
+                    <span>${{ product.price }}</span>
+                    <span>{{ product.quantity }} available</span>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state compact">
+                <h3>No flowers are listed yet</h3>
+                <p>A staff user can add products in Django admin or run the demo seed command.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

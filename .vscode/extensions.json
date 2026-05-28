@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.debugpy",
+    "batisteo.vscode-django",
+    "ms-azuretools.vscode-docker",
+    "github.vscode-github-actions",
+    "redhat.vscode-yaml"
+  ]
+}

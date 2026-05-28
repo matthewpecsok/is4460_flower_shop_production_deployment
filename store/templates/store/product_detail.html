@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | Bloom & Basket{% endblock %}
+
+{% block content %}
+<section class="page-section detail-layout">
+    <div class="detail-media" aria-hidden="true">
+        <span>{{ product.name|first }}</span>
+    </div>
+    <div class="detail-content">
+        <p class="eyebrow">Flower product</p>
+        <h1>{{ product.name }}</h1>
+        <p class="description">{{ product.description }}</p>
+        <dl class="product-facts">
+            <div>
+                <dt>Price</dt>
+                <dd>${{ product.price }}</dd>
+            </div>
+            <div>
+                <dt>Quantity available</dt>
+                <dd>{{ product.quantity }}</dd>
+            </div>
+        </dl>
+
+        {% if product.is_in_stock %}
+            <form method="post" action="{% url 'store:add_to_cart' product.pk %}" class="purchase-form">
+                {% csrf_token %}
+                <label for="quantity">Quantity</label>
+                <input id="quantity" name="quantity" type="number" min="1" max="{{ product.quantity }}" value="1">
+                <button class="primary-button" type="submit">Add to cart</button>
+            </form>
+        {% else %}
+            <p class="stock-badge out">Out of stock</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
