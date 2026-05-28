@@ -85,4 +85,5 @@ jobs:
           flags: "--port=8080 --max-instances=1 --allow-unauthenticated"
 
       - name: Show service URL
-        run: echo "Cloud Run URL: ${{ steps.deploy.outputs.url }}"
+        run: |
+          echo "Cloud Run URL: ${{ steps.deploy.outputs.url }}"
