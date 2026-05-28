@@ -82,7 +82,7 @@ jobs:
             SQLITE_DB_PATH=/tmp/db.sqlite3
           secrets: |-
             DJANGO_SECRET_KEY=${{ vars.DJANGO_SECRET_KEY_SECRET_NAME }}:latest
-          flags: "--port=8080 --max-instances=1 --allow-unauthenticated"
+          flags: "--port=8080 --max-instances=1 --allow-unauthenticated --service-account=${{ vars.GCP_SERVICE_ACCOUNT }}"
 
       - name: Show service URL
         run: |

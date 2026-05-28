@@ -105,7 +105,7 @@ The workflow in `.github/workflows/deploy.yml` runs tests, builds a Docker image
 
 Before the first deployment:
 
-1. Enable required APIs: Cloud Run, Artifact Registry, IAM Credentials, Secret Manager, and Cloud Build if your project needs it.
+1. Enable required APIs: Cloud Run, Artifact Registry, IAM Credentials, and Secret Manager.
 2. Create an Artifact Registry Docker repository.
 3. Create a Secret Manager secret containing the Django secret key.
 4. Create or choose a deployment service account with permissions for Cloud Run deployment, Artifact Registry push, and Secret Manager access. Typical roles include Cloud Run Admin, Artifact Registry Writer, Secret Manager Secret Accessor, and Service Account User on the runtime service account.
