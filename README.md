@@ -101,7 +101,7 @@ The container runs migrations and `collectstatic`, then starts Gunicorn on `PORT
 
 ## Google Cloud Run Deployment
 
-The workflow in `.github/workflows/deploy.yml` runs tests, builds a Docker image, pushes it to Artifact Registry, and deploys to Cloud Run. It uses Workload Identity Federation through `google-github-actions/auth@v3`; no long-lived service account JSON key is required. 
+The workflow in `.github/workflows/deploy.yml` runs tests, builds a Docker image, pushes it to Artifact Registry, and deploys to Cloud Run. It uses Workload Identity Federation through `google-github-actions/auth@v3`; no long-lived service account JSON key is required.  
 
 Before the first deployment:
 
